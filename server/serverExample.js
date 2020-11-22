@@ -1,23 +1,5 @@
 const bodyParser = require('body-parser');
-const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-
-const usersDb = low(new FileSync('./db/users.json')).get('users');
-const categoriesDb = low(new FileSync('./db/categories.json')).get('categories');
-const fieldsDb = low(new FileSync('./db/fields.json')).get('fields');
-const layoutsDb = low(new FileSync('./db/layouts.json')).get('layouts');
-const rulesDb = low(new FileSync('./db/rules.json')).get('rules');
-const tablesDb = low(new FileSync('./db/tables.json')).get('reftables');
-const wpDb = low(new FileSync('./db/wp.json'));
-const widgetDb = low(new FileSync('./db/widgets.json'));
-
-const server = jsonServer.create();
-
-const router = jsonServer.router('./db/db.json');
-
-server.use(jsonServer.defaults());
 
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());

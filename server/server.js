@@ -1,12 +1,22 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
 
-const app = express();
+const server = express();
+
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
+
 const port = 3001;
 
-app.get('/', (req, res) => {
+server.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
+server.post('/api/user/create', (req, res) => {
+  res.send('Hello World!');
+});
+
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
