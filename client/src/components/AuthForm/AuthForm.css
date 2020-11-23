@@ -1,0 +1,6 @@
+form {
+  background-color: tomato;
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+}

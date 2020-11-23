@@ -9,7 +9,7 @@ import {
   useHistory,
 } from 'react-router-dom';
 
-import LoginPage from './pages/LoginPage';
+import AuthPage from './pages/AuthPage';
 
 export default function AuthExample() {
   return (
@@ -21,10 +21,10 @@ export default function AuthExample() {
               <Redirect to="/protected" />
             </Route>
             <Route path="/login">
-              <LoginPage useAuth={ useAuth } />
+              <AuthPage useAuth={ useAuth } />
             </Route>
             <Route path="/register">
-              <LoginPage />
+              <AuthPage useAuth={ useAuth } />
             </Route>
             <PrivateRoute exact path="/">
               <ProtectedPage />

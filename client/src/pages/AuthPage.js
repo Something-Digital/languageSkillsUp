@@ -1,7 +1,8 @@
 import { useHistory, useLocation } from 'react-router-dom';
+import AuthForm from '../components/AuthForm/AuthForm';
 
-export default function LoginPage({ useAuth }) {
-  
+export default function AuthPage({ useAuth }) {
+
   let history = useHistory();
   let location = useLocation();
   let auth = useAuth();
@@ -17,6 +18,7 @@ export default function LoginPage({ useAuth }) {
     <div>
       <p>You must log in to view the page at {from.pathname}</p>
       <button onClick={login}>Log in</button>
+      <AuthForm />
     </div>
   );
 }
