@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 
+import db from './db.js';
+
 const server = express();
 
 server.use(bodyParser.urlencoded({ extended: true }));
@@ -96,7 +98,8 @@ server.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-server.post('/api/user/create', (req, res) => {
+server.post('/api/user/create', async (req, res) => {
+  await db.createUser(req.body);
   res.send({ req: req.headers });
 });
 

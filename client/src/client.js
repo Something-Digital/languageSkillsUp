@@ -8,12 +8,14 @@ const commonOptions = {
 
 const client = {
   user: {
-    create: async (data) => await fetch(
+    create: async ({ username }) => await fetch(
       `${host}/user/create`,
       {
         ...commonOptions,
         method: 'POST',
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          username
+        }),
       }
     ),
   },

@@ -21,7 +21,7 @@ export default class AuthForm extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    await client.user.create(this.username);
+    await client.user.create({ username: this.state.username });
   }
 
   render() {
