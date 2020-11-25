@@ -14,7 +14,7 @@ server.get('/', (req, res) => {
 });
 
 server.post('/api/user/create', (req, res) => {
-  res.send('Hello World!');
+  res.send({ req: req.headers });
 });
 
 server.listen(port, () => {

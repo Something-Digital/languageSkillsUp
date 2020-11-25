@@ -1,6 +1,7 @@
 import './AuthForm.css';
-
 import React from 'react';
+
+import client from '../../client';
 
 export default class AuthForm extends React.Component {
   constructor(props) {
@@ -15,12 +16,12 @@ export default class AuthForm extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({username: event.target.value});
   }
 
-  handleSubmit(event) {
-    alert('Отправленное имя: ' + this.state.value);
+  async handleSubmit(event) {
     event.preventDefault();
+    await client.user.create(this.username);
   }
 
   render() {
@@ -30,10 +31,10 @@ export default class AuthForm extends React.Component {
           Username
           <input type="text" value={this.state.username} onChange={this.handleChange} />
         </label>
-        <label>
+        {/* <label>
           Password
           <input type="password" value={this.state.password} onChange={this.handleChange} />
-        </label>
+        </label> */}
         <input type="submit" value="Login" />
       </form>
     );
