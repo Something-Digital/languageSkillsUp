@@ -31,11 +31,16 @@ export default class AuthForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <TextInput
-          placeholder="Username"
+          placeholder="USERNAME"
           value={this.state.username}
           handleChange={this.handleChangeUsername}
         />
-        <input type="submit" value="Login" />
+        <TextInput
+          placeholder="PASSWORD"
+          value={this.state.username}
+          handleChange={this.handleChangeUsername}
+        />
+        <input type="submit" value="LOG IN" />
       </form>
     );
   }

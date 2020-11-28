@@ -1,7 +1,11 @@
 form {
-  background-color: blueviolet;
+  background: linear-gradient(45deg, #e66465, blueviolet);
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
   padding: 50px;
   display: flex;
   flex-direction: column;
+}
+
+form > *:not(:last-child) {
+  margin-bottom: 50px;
 }
