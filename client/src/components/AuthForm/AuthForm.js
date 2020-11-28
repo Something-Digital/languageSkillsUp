@@ -1,5 +1,8 @@
 import './AuthForm.css';
+
 import React from 'react';
+
+import TextInput from '../TextInput'
 
 import client from '../../client';
 
@@ -11,11 +14,11 @@ export default class AuthForm extends React.Component {
       password: '',
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChangeUsername(event) {
     this.setState({username: event.target.value});
   }
 
@@ -27,14 +30,11 @@ export default class AuthForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Username
-          <input type="text" value={this.state.username} onChange={this.handleChange} />
-        </label>
-        {/* <label>
-          Password
-          <input type="password" value={this.state.password} onChange={this.handleChange} />
-        </label> */}
+        <TextInput
+          placeholder="Username"
+          value={this.state.username}
+          handleChange={this.handleChangeUsername}
+        />
         <input type="submit" value="Login" />
       </form>
     );

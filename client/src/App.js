@@ -1,5 +1,4 @@
 import './App.css';
-
 import React, { useContext, createContext, useState } from 'react';
 import {
   BrowserRouter as Router,
