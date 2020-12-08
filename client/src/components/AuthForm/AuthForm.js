@@ -1,10 +1,8 @@
 import './AuthForm.css';
-
 import React from 'react';
-
 import TextInput from '../TextInput'
-
 import client from '../../client';
+import { Link } from 'react-router-dom';
 
 export default class AuthForm extends React.Component {
   constructor(props) {
@@ -40,7 +38,10 @@ export default class AuthForm extends React.Component {
           value={this.state.username}
           handleChange={this.handleChangeUsername}
         />
-        <input type="submit" value="LOG IN" />
+        <input type="submit" value={ this.props.type === 'login' ? 'LOG IN' : 'REGISTER' } />
+        <Link to={ this.props.type === 'login' ? '/register' : '/login' }>
+          { this.props.type === 'login' ? 'REGISTER' : 'LOGIN' }
+        </Link>
       </form>
     );
   }
