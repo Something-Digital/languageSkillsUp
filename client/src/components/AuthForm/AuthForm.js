@@ -1,48 +1,70 @@
 import './AuthForm.css';
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import TextInput from '../TextInput'
 import client from '../../client';
 import { Link } from 'react-router-dom';
 
-export default class AuthForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
-
-    this.handleChangeUsername = this.handleChangeUsername.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+const getAuthFormType = (pathname) => {
+  switch (pathname) {
+    case '/login': return 'login';
+    case '/register': return 'register';
+    default: return 'login';
   }
+}
 
-  handleChangeUsername(event) {
-    this.setState({username: event.target.value});
-  }
+export default function AuthForm({ useAuth }) {
 
-  async handleSubmit(event) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await client.user.create({ username: this.state.username });
+    const submitResult = await client.user.create({ username, password });
+    if (submitResult.ok) login();
   }
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <TextInput
-          placeholder="USERNAME"
-          value={this.state.username}
-          handleChange={this.handleChangeUsername}
-        />
-        <TextInput
-          placeholder="PASSWORD"
-          value={this.state.username}
-          handleChange={this.handleChangeUsername}
-        />
-        <input type="submit" value={ this.props.type === 'login' ? 'LOG IN' : 'REGISTER' } />
-        <Link to={ this.props.type === 'login' ? '/register' : '/login' }>
-          { this.props.type === 'login' ? 'REGISTER' : 'LOGIN' }
-        </Link>
-      </form>
-    );
+  const handleChangeUsername = (e) => {
+    setUsername(e.target.value);
   }
+
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  }
+
+  let history = useHistory();
+  let location = useLocation();
+  let auth = useAuth();
+
+  let { from } = location.state || { from: { pathname: "/" } };
+  
+  let login = () => {
+    auth.signin(() => {
+      history.replace(from);
+    });
+  };
+
+  let type = getAuthFormType(location.pathname);
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextInput
+        placeholder="USERNAME"
+        value={username}
+        handleChange={handleChangeUsername}
+      />
+      <TextInput
+        placeholder="PASSWORD"
+        value={password}
+        handleChange={handleChangePassword}
+      />
+      <input type="submit" value={ type === 'login' ? 'LOG IN' : 'REGISTER' } />
+      <Link
+        to={ type === 'login' ? '/register' : '/login' }
+        className="auth__link"
+      >
+        { type === 'login' ? 'REGISTER' : 'LOGIN' }
+      </Link>
+    </form>
+  );
 }
