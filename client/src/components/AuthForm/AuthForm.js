@@ -21,6 +21,8 @@ export default function AuthForm({ useAuth }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const submitResult = await client.user.create({ username, password });
+    const body = await submitResult.json();
+    console.log(body);
     if (submitResult.ok) login();
   }
 
