@@ -28,6 +28,14 @@
       "es6": true,
       "node": true
     },
-    "rules": {}
+    "rules": {
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "js": "ignorePackages"
+        }
+      ]
+    }
   }
 }
