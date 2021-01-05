@@ -2,7 +2,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import router from './router/index.js';
+import router from './modules/router.js';
 
 const PORT = process.env.PORT || 3001;
 

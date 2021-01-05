@@ -7,33 +7,23 @@ const connectionOptions = {
 };
 
 const db = {
-  createUser: async (user) => {
+  createUser: async ({ username, passwordHash }) => {
     try {
+      if (!username || !passwordHash) return null;
+
       const connection = await mysql.createConnection(connectionOptions);
-      const result = await connection.execute(`
-      INSERT INTO users(username, password_hash)
-      VALUES('${user.username}', '${user.password}');
-    `);
+      const result = (await connection.execute(`
+        INSERT INTO users(username, password_hash)
+        VALUES('${username}', '${passwordHash}');
+      `))[0];
+
       if (result.affectedRows === 1) {
-        return {
-          success: true,
-          data: {
-            user: {
-              id: result.insertId,
-              ...user,
-            },
-          },
-        };
+        return result.insertId;
       }
-      return {
-        success: false,
-        reason: 'Couldn`t create a user',
-      };
+
+      return null;
     } catch (err) {
-      return {
-        success: false,
-        reason: 'DB error: Something went wrong',
-      };
+      return null;
     }
   },
 };
