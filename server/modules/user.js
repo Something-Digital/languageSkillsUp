@@ -1,9 +1,9 @@
 import db from './db.js';
 
 const user = {
-  create: async (user) => {
-    const result = await db.createUser(user);
-    // console.log(result);
+  create: async (userData) => {
+    const result = await db.createUser(userData);
+    return result;
   },
 };
 

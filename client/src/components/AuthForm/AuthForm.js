@@ -61,6 +61,7 @@ export default function AuthForm({ useAuth }) {
         handleChange={handleChangePassword}
       />
       <input type="submit" value={ type === 'login' ? 'LOG IN' : 'REGISTER' } />
+      Switch to
       <Link
         to={ type === 'login' ? '/register' : '/login' }
         className="auth__link"
