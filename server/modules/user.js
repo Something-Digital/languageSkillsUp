@@ -33,7 +33,7 @@ const user = {
 
     const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 
-    const userId = await db.createUser({ username, passwordHash });
+    const userId = await db.writeNewUser({ username, passwordHash });
 
     if (userId) {
       result.ok = true;

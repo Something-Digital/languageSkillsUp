@@ -7,7 +7,7 @@ const connectionOptions = {
 };
 
 const db = {
-  createUser: async ({ username, passwordHash }) => {
+  writeNewUser: async ({ username, passwordHash }) => {
     try {
       if (!username || !passwordHash) return null;
 
