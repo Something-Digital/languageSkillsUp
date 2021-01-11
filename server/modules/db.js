@@ -13,8 +13,7 @@ const db = {
 
       const connection = await mysql.createConnection(connectionOptions);
       const result = (await connection.execute(`
-        INSERT INTO users(username, password_hash)
-        VALUES('${username}', '${passwordHash}');
+        INSERT INTO users(username, password_hash) VALUES('${username}', '${passwordHash}');
       `))[0];
 
       if (result.affectedRows === 1) {
@@ -22,6 +21,21 @@ const db = {
       }
 
       return null;
+    } catch (err) {
+      return null;
+    }
+  },
+
+  ifUserExists: async ({ username }) => {
+    try {
+      if (!username) return null;
+
+      const connection = await mysql.createConnection(connectionOptions);
+      const result = Object.values((await connection.execute(`
+        SELECT EXISTS(SELECT * FROM users WHERE username = '${username}');
+      `))[0][0])[0];
+
+      return !!result;
     } catch (err) {
       return null;
     }

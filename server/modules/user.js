@@ -31,6 +31,12 @@ const user = {
       return result;
     }
 
+    const userExists = await db.ifUserExists({ username });
+    if (userExists) {
+      result.message += ': the user is already exists';
+      return result;
+    }
+
     const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 
     const userId = await db.writeNewUser({ username, passwordHash });
