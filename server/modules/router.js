@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
 
 router.post('/api/user/create', async (req, res) => {
   const result = await user.create(req.body);
+  res.statusCode = result.ok ? 200 : 400;
   res.send(result);
 });
 
