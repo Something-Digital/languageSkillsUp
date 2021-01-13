@@ -4,21 +4,37 @@ import {
   REFRESH_KEY,
   ID_EXPIRES_IN,
   REFRESH_EXPIRES_IN,
-} from 'constants';
+} from './constants.js';
 
-export function createIdToken(payload) {
-  return jwt.sign(payload, ID_KEY, { expiresIn: ID_EXPIRES_IN });
-}
+const token = {
+  createIdToken: (payload) => jwt.sign(
+    payload,
+    ID_KEY,
+    {
+      expiresIn: ID_EXPIRES_IN,
+    },
+  ),
 
-export function createRefreshToken(payload) {
-  return jwt.sign(payload, REFRESH_KEY, { expiresIn: REFRESH_EXPIRES_IN });
-}
+  createRefreshToken: (payload) => jwt.sign(
+    payload,
+    REFRESH_KEY,
+    {
+      expiresIn: REFRESH_EXPIRES_IN,
+    },
+  ),
 
-export function verifyToken(token, key) {
-  try {
-    const decoded = jwt.verify(token, key, (err, decode) => (decode !== undefined ? decode : err));
-    return !(decoded && ['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'].includes(decoded.name));
-  } catch (err) {
-    return false;
-  }
-}
+  verifyToken: (tokenValue, key) => {
+    try {
+      const decoded = jwt.verify(
+        tokenValue,
+        key,
+        (err, decode) => (decode !== undefined ? decode : err),
+      );
+      return !(decoded && ['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'].includes(decoded.name));
+    } catch (err) {
+      return false;
+    }
+  },
+};
+
+export default token;

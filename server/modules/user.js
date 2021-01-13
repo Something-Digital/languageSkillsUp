@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 
 import db from './db.js';
+import token from './token.js';
+import { ID_EXPIRES_IN, REFRESH_EXPIRES_IN } from './constants.js';
 
 const user = {
   create: async (userData) => {
@@ -38,7 +40,6 @@ const user = {
     }
 
     const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-
     const userId = await db.writeNewUser({ username, passwordHash });
 
     if (userId) {
@@ -46,84 +47,59 @@ const user = {
       result.message = `User ${username} created!`;
       result.data = { userId, username };
     }
+
     return result;
   },
 
   login: async (userData) => {
-    // const result = {
-    //   ok: false,
-    //   message: 'Couldn`t create a user',
-    // };
+    const result = {
+      ok: false,
+      message: 'Couldn`t login a user',
+    };
 
-    // const { username, password, repeatPassword } = userData;
+    const { username, password } = userData;
 
-    // if (!username) {
-    //   result.message += ': username is empty';
-    //   return result;
-    // }
+    if (!username) {
+      result.message += ': username is empty';
+      return result;
+    }
 
-    // if (!password) {
-    //   result.message += ': password is empty';
-    //   return result;
-    // }
+    if (!password) {
+      result.message += ': password is empty';
+      return result;
+    }
 
-    // if (!repeatPassword) {
-    //   result.message += ': repeat password is empty';
-    //   return result;
-    // }
+    const { passwordHash } = await db.getUser({ username });
+    const isPasswordCorrect = bcrypt.compareSync(password, passwordHash);
+    if (!isPasswordCorrect) {
+      result.message += ': username or password is incorrect';
+      return result;
+    }
 
-    // if (password.trim() !== repeatPassword.trim()) {
-    //   result.message += ': password and its repeat aren`t match';
-    //   return result;
-    // }
+    const idToken = token.createIdToken({ username, password });
+    const refreshToken = token.createRefreshToken({ username, password });
 
-    // const userExists = await db.ifUserExists({ username });
-    // if (userExists) {
-    //   result.message += ': the user is already exists';
-    //   return result;
-    // }
+    const idTokenWritten = await db.setIdToken({ username, idToken });
+    const refreshTokenWritten = await db.setRefreshToken({ username, refreshToken });
+    if (!idTokenWritten || !refreshTokenWritten) {
+      result.message += ': DB error, tokens are not written';
+      return result;
+    }
 
-    // const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+    result.ok = true;
+    result.message = `User ${username} logged in!`;
+    result.data = {
+      auth: {
+        idToken,
+        refreshToken,
+        idExpiresIn: ID_EXPIRES_IN,
+        refreshExpiresIn: REFRESH_EXPIRES_IN,
+      },
+      groups: ['USER'],
+    };
 
-    // const userId = await db.writeNewUser({ username, passwordHash });
-
-    // if (userId) {
-    //   result.ok = true;
-    //   result.message = `User ${username} created!`;
-    //   result.data = { userId, username };
-    // }
-    // return result;
+    return result;
   },
 };
-
-function findUser({ username }) {
-  // @TODO
-  // const userRecord = findUserRecord({ username });
-  // return userRecord ? userRecord.value() : null;
-}
-
-function updateUser({ username, ...otherProps }) {
-  // @TODO
-  // const userRecord = findUserRecord({ username });
-  // if (userRecord) {
-  //   userRecord.assign({ ...otherProps }).write();
-  // }
-}
-
-function findUserRecord({ username }) {
-  // @TODO
-  // if (usersDb.find({ username }).value()) {
-  //   return usersDb.find({ username });
-  // }
-  // if (usersDb.find({ email: username }).value()) {
-  //   return usersDb.find({ email: username });
-  // }
-  // return null;
-}
-
-function checkUserAuthenticated({ username, password }) {
-  // @TODO
-  // return Boolean(usersDb.find({ username, password }).value());
-}
 
 export default user;

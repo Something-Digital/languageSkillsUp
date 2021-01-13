@@ -13,7 +13,8 @@ const db = {
 
       const connection = await mysql.createConnection(connectionOptions);
       const result = (await connection.execute(`
-        INSERT INTO users(username, password_hash) VALUES('${username}', '${passwordHash}');
+        INSERT INTO users(username, password_hash)
+        VALUES('${username}', '${passwordHash}');
       `))[0];
 
       if (result.affectedRows === 1) {
@@ -32,10 +33,69 @@ const db = {
 
       const connection = await mysql.createConnection(connectionOptions);
       const result = Object.values((await connection.execute(`
-        SELECT EXISTS(SELECT * FROM users WHERE username = '${username}');
+        SELECT EXISTS(
+          SELECT *
+          FROM users
+          WHERE username = '${username}'
+        );
       `))[0][0])[0];
 
       return !!result;
+    } catch (err) {
+      return null;
+    }
+  },
+
+  getUser: async ({ username }) => {
+    try {
+      if (!username) return null;
+
+      const connection = await mysql.createConnection(connectionOptions);
+      const result = (await connection.execute(`
+        SELECT *
+        FROM users
+        WHERE username = '${username}';
+      `))[0][0];
+
+      return {
+        id: result.id,
+        username: result.username,
+        passwordHash: result.password_hash,
+      };
+    } catch (err) {
+      return null;
+    }
+  },
+
+  setIdToken: async ({ username, idToken }) => {
+    try {
+      if (!username || !idToken) return null;
+
+      const connection = await mysql.createConnection(connectionOptions);
+      const result = (await connection.execute(`
+        UPDATE users
+        SET id_token = '${idToken}'
+        WHERE username = '${username}';
+      `))[0];
+
+      return result.affectedRows === 1;
+    } catch (err) {
+      return null;
+    }
+  },
+
+  setRefreshToken: async ({ username, refreshToken }) => {
+    try {
+      if (!username || !refreshToken) return null;
+
+      const connection = await mysql.createConnection(connectionOptions);
+      const result = (await connection.execute(`
+        UPDATE users
+        SET refresh_token = '${refreshToken}'
+        WHERE username = '${username}';
+      `))[0];
+
+      return result.affectedRows === 1;
     } catch (err) {
       return null;
     }
