@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 import db from './db.js';
 import token from './token.js';
-import { ID_EXPIRES_IN, REFRESH_EXPIRES_IN } from './constants.js';
+import { ID_KEY, ID_EXPIRES_IN, REFRESH_EXPIRES_IN } from './constants.js';
 
 const user = {
   create: async (userData) => {
@@ -79,13 +79,6 @@ const user = {
     const idToken = token.createIdToken({ username, password });
     const refreshToken = token.createRefreshToken({ username, password });
 
-    const idTokenWritten = await db.setIdToken({ username, idToken });
-    const refreshTokenWritten = await db.setRefreshToken({ username, refreshToken });
-    if (!idTokenWritten || !refreshTokenWritten) {
-      result.message += ': DB error, tokens are not written';
-      return result;
-    }
-
     result.ok = true;
     result.message = `User ${username} logged in!`;
     result.data = {
@@ -99,6 +92,22 @@ const user = {
     };
 
     return result;
+  },
+
+  auth: async (req, _, next) => {
+    try {
+      const tokenOk = token.verifyToken(req.headers.authorization, ID_KEY);
+
+      if (tokenOk) {
+        next();
+      } else {
+        const err = new Error('Not authenticated!');
+        err.status = 401;
+        next(err);
+      }
+    } catch (err) {
+      next(err);
+    }
   },
 };
 

@@ -66,40 +66,6 @@ const db = {
       return null;
     }
   },
-
-  setIdToken: async ({ username, idToken }) => {
-    try {
-      if (!username || !idToken) return null;
-
-      const connection = await mysql.createConnection(connectionOptions);
-      const result = (await connection.execute(`
-        UPDATE users
-        SET id_token = '${idToken}'
-        WHERE username = '${username}';
-      `))[0];
-
-      return result.affectedRows === 1;
-    } catch (err) {
-      return null;
-    }
-  },
-
-  setRefreshToken: async ({ username, refreshToken }) => {
-    try {
-      if (!username || !refreshToken) return null;
-
-      const connection = await mysql.createConnection(connectionOptions);
-      const result = (await connection.execute(`
-        UPDATE users
-        SET refresh_token = '${refreshToken}'
-        WHERE username = '${username}';
-      `))[0];
-
-      return result.affectedRows === 1;
-    } catch (err) {
-      return null;
-    }
-  },
 };
 
 export default db;
