@@ -9,7 +9,7 @@
 
   <ul>
     {#each $wordsList as wordsItem}
-    <li>{ wordsItem.title ?? 'Unknown title' }</li>
+      <li>{ wordsItem.title ?? 'Unknown title' }</li>
     {/each}
   </ul>
   
