@@ -6,7 +6,7 @@ import { wordsList } from '../stores/WordsStore';
 </script>
 
 <main>
-  <Button title="Создать список" />
+  <Button title="Создать список" fun={() => wordsList.addWords()} />
 
   <ul>
     {#each $wordsList as words}
