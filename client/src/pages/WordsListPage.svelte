@@ -1,20 +1,16 @@
 <script lang="ts">
-import Button from '../components/Button.svelte';
-import WordsListTile from '../components/WordsListTile.svelte';
-import { wordsList } from '../stores/WordsStore';
-
+  import Button from "../components/Button.svelte";
+  import WordsListTile from "../components/WordsListTile.svelte";
+  import { wordsList } from "../stores/WordsStore";
 </script>
 
-<main>
-  <Button title="Создать список" fun={() => wordsList.addWords()} />
+<Button title="Создать список" fun={() => wordsList.addWords()} />
 
-  <ul>
-    {#each $wordsList as words}
-      <WordsListTile {words} />
-    {/each}
-  </ul>
-  
-</main>
+<ul>
+  {#each $wordsList as words}
+    <WordsListTile {words} />
+  {/each}
+</ul>
 
 <style>
   ul {

@@ -1,15 +1,17 @@
 <script lang="ts">
-  import Modal from './components/Modal.svelte';
-	import WordsListPage from './pages/WordsListPage.svelte'
+	import Router from "svelte-spa-router";
+	import routes from "./routes";
+
+	import Modal from "./components/Modal.svelte";
 
 	export let name: string;
 </script>
 
 <main>
-	<WordsListPage />
+	<Router {routes} />
 	{#if false}
-    <Modal>Hello</Modal>
-  {/if}
+		<Modal>Hello</Modal>
+	{/if}
 </main>
 
 <style>
