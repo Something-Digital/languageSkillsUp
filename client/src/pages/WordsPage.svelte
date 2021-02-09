@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { link } from "svelte-spa-router";
-  import type { Words } from "../models/WordsModels";
+  import { wordsList } from '../stores/WordsStore';
+  import type { WordsRouterParams } from '../models/RouterModels';
+  import type { Words } from '../models/WordsModels';
 
-  export let words: Words;
+  export let params: WordsRouterParams = { id: '' };
+  export let words: Words = $wordsList.find(words => words.id === params.id);
 </script>
 
-<li class="words-list-tile">
-  <a href={ `/words/${words.id}` } class="words-list-tile__link" use:link>
+<ul>
+  <li class="words-list-tile">
     <h3 class="words-list-tile__title">{words.title ?? "Unknown title"}</h3>
     <h4 class="words-list-tile__divider">***</h4>
     <ul class="words-list-tile__preview">
@@ -14,10 +16,14 @@
         <li>{wordsPair.word} - {wordsPair.translation}</li>
       {/each}
     </ul>
-  </a>
-</li>
+  </li>
+</ul>
 
 <style>
+  ul {
+    padding: 0;
+    display: flex;
+  }
   li {
     list-style-type: none;
   }

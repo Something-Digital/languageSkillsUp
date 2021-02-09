@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Router from "svelte-spa-router";
-	import routes from "./routes";
+	import Router from 'svelte-spa-router';
+	import routes from './routes';
 
-	import Modal from "./components/Modal.svelte";
+	import Modal from './components/Modal.svelte';
 
 	export let name: string;
 </script>
@@ -10,7 +10,7 @@
 <main>
 	<Router {routes} />
 	{#if false}
-		<Modal>Hello</Modal>
+		<Modal>Hello {name}</Modal>
 	{/if}
 </main>
 

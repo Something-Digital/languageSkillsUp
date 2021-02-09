@@ -35,8 +35,10 @@ export default {
 	output: {
 		sourcemap: true,
 		format: 'iife',
+		// format: 'esm',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		// dir: 'public/build',
+		file: 'public/build/bundle.js',
 	},
 	plugins: [
 		svelte({
@@ -62,7 +64,8 @@ export default {
 		commonjs(),
 		typescript({
 			sourceMap: !production,
-			inlineSources: !production
+			inlineSources: !production,
+			// module: 'es2020',
 		}),
 
 		// In dev mode, call `npm run start` once
