@@ -9,3 +9,8 @@ export interface Words {
   title: string;
   items: WordsPair[];
 }
+
+export enum Direction {
+  Forward = 'Forward',
+  Backward = 'Backward',
+}

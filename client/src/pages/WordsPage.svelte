@@ -1,56 +1,42 @@
 <script lang="ts">
   import { wordsList } from '../stores/WordsStore';
   import type { WordsRouterParams } from '../models/RouterModels';
-  import type { Words } from '../models/WordsModels';
+  import { Direction } from '../models/WordsModels';
 
   export let params: WordsRouterParams = { id: '' };
-  export let words: Words = $wordsList.find(words => words.id === params.id);
+
+  let words = $wordsList.find((item) => item.id === params.id);
+  let direction = Direction.Forward;
+
+  function changeDirection() {
+		direction = direction === Direction.Forward ? Direction.Backward : Direction.Forward;
+	}
 </script>
 
-<ul>
-  <li class="words-list-tile">
-    <h3 class="words-list-tile__title">{words.title ?? "Unknown title"}</h3>
-    <h4 class="words-list-tile__divider">***</h4>
-    <ul class="words-list-tile__preview">
-      {#each words.items.slice(0, 2) as wordsPair}
-        <li>{wordsPair.word} - {wordsPair.translation}</li>
-      {/each}
-    </ul>
-  </li>
+<h1 class="words__title">{words.title ?? "Unknown title"}</h1>
+<p>Direction: {direction}</p>
+<button on:click={changeDirection}>Change direction</button>
+<ul class="words__list">
+  {#each words.items as wordsPair}
+    <li class="words__pair">
+      {#if direction === Direction.Forward}
+        <span>{wordsPair.word} - </span><input type="text" />
+      {:else}
+        <span>{wordsPair.translation} - </span><input type="text" />
+      {/if}
+    </li>
+  {/each}
 </ul>
 
 <style>
-  ul {
+  .words__title {
+  }
+  .words__list {
     padding: 0;
-    display: flex;
-  }
-  li {
-    list-style-type: none;
-  }
-  .words-list-tile {
-    display: block;
-    background-color: whitesmoke;
-    padding: 1.5em;
-    cursor: pointer;
-    box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.1);
-  }
-  .words-list-tile__link {
-    text-decoration-line: none;
-    color: inherit;
-  }
-  .words-list-tile:not(:first-of-type) {
-    margin-left: 1.2em;
-  }
-  .words-list-tile__title {
-    margin: 0;
-  }
-  .words-list-tile__divider {
-    margin: 0.5em 0;
-  }
-  .words-list-tile__preview {
     display: flex;
     flex-direction: column;
-    padding: 0;
-    color: lightgray;
+  }
+  .words__pair {
+    list-style-type: none;
   }
 </style>
