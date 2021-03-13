@@ -1,0 +1,1 @@
+You must install `yc` - look this https://cloud.yandex.ru/docs/cli/quickstart#install
