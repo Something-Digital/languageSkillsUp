@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "yc serverless function version create --function-name=words --runtime nodejs14 --entrypoint index.handler --memory 128m --execution-timeout 3s --source-path ./words.zip",
-    "invoke": "yc serverless function invoke d4ek7ufeqvsvn8753hoq"
+    "zip": "node ./scripts/zip.js",
+    "deploy": "yc serverless function version create --function-name=words --runtime nodejs14 --entrypoint index.handler --memory 128m --execution-timeout 3s --service-account-id aje067mchvsmt3pcbr8r --source-path ./words.zip",
+    "invoke": "yc serverless function invoke d4ek7ufeqvsvn8753hoq -d \"{a: b}\""
   },
   "author": "Pavel Bobylyov",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "yandex-cloud": "^1.4.3",
+    "zip-lib": "^0.7.2"
+  }
 }

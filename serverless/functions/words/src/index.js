@@ -1,8 +1,10 @@
 const { DocAPIService } = require('yandex-cloud/lib/slydb/docapi/docapi');
 
+const endpoint = 'https://docapi.serverless.yandexcloud.net/ru-central1/b1gd14lj4q35a4o6dunh/etn00ahdatdd84e89q7s';
+const docApi = new DocAPIService(endpoint);
+
 module.exports.handler = async function (event, context) {
-  const endpoint = 'https://docapi.serverless.yandexcloud.net/ru-central1/b1gd14lj4q35a4o6dunh/etn00ahdatdd84e89q7s';
-  const docapi = new DocAPIService(endpoint);
+  // event.payload = { a: b }
   const params = {
     TableName: "words",
     Key:
@@ -11,8 +13,7 @@ module.exports.handler = async function (event, context) {
       "id": "words1"
     }
   };
-  const res = await docapi.getItem(params);
-  console.log(res);
+  const res = await docApi.getItem(params);
   return {
     statusCode: 200,
     headers: {"content-type": "application/json"},
