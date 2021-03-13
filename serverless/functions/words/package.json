@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "yc serverless function version create --function-name=words --runtime nodejs14 --entrypoint index.handler --memory 128m --execution-timeout 3s --source-path ./words.zip",
-    "invoke": "yc serverless function invoke d4ek7ufeqvsvn8753hoq -d '{\"queryStringParameters\": {\"name\": \"Username\"}}'"
+    "invoke": "yc serverless function invoke d4ek7ufeqvsvn8753hoq"
   },
   "author": "Pavel Bobylyov",
   "license": "MIT"
