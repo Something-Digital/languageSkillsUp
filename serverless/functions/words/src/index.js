@@ -5,6 +5,7 @@ const docApi = new DocAPIService(endpoint);
 
 module.exports.handler = async function (event, context) {
   // event.payload = { a: b }
+  // queryStringParameters {}, multiValueQueryStringParameters {key: []}, body str, path str
   const params = {
     TableName: "words",
     Key:
@@ -17,6 +18,6 @@ module.exports.handler = async function (event, context) {
   return {
     statusCode: 200,
     headers: {"content-type": "application/json"},
-    body: JSON.stringify(res),
+    body: JSON.stringify(event),
   };
 };

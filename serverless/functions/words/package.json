@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "zip": "node ./scripts/zip.js",
-    "deploy": "yc serverless function version create --function-name=words --runtime nodejs14 --entrypoint index.handler --memory 128m --execution-timeout 3s --service-account-id aje067mchvsmt3pcbr8r --source-path ./words.zip",
+    "deploy": "node ./scripts/zip.js && yc serverless function version create --function-name=words --runtime nodejs14 --entrypoint index.handler --memory 128m --execution-timeout 3s --service-account-id aje067mchvsmt3pcbr8r --source-path ./words.zip",
     "invoke": "yc serverless function invoke d4ek7ufeqvsvn8753hoq -d \"{a: b}\""
   },
   "author": "Pavel Bobylyov",
