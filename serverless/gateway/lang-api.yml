@@ -34,13 +34,13 @@ paths:
                 type: string
           description: Greeting
       summary: Say hello
-  /words/list:
+  /words:
     get:
       x-yc-apigateway-integration:
         type: cloud_functions
         function_id: d4ek7ufeqvsvn8753hoq
         service_account_id: aje067mchvsmt3pcbr8r
-      operationId: listWords
+      operationId: words
       responses:
         200:
           content:
@@ -50,4 +50,4 @@ paths:
                   type: object
                 type: array
           description: Another example
-      summary: List all words
+      summary: words operations
